@@ -151,7 +151,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
       .catch((error) => {
         toast.error("Something went wrong");
       });
-  }, []);
+  }, [router]);
 
 
   const handleDeliver = useCallback((id: string) => {
@@ -167,7 +167,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
       .catch((error) => {
         toast.error("Something went wrong");
       });
-  }, []);
+  }, [router]);
   
 
   const paginationModel = { page: 0, pageSize: 5 };

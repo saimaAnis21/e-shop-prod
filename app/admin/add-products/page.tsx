@@ -16,11 +16,11 @@ const AddProducts = async () => {
     <div className="p-8">
       <Container>
         <FormWrap>
-          <AddProductForm />  
+            <AddProductForm />
         </FormWrap>
       </Container>
     </div>
-  )
+  );
 }
 
 export default AddProducts;

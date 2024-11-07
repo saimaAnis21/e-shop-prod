@@ -6,6 +6,7 @@ import UserMenu from "./UserMenu";
 import { getCurrentUser } from "../../../actions/getCurrentUser";
 import Categories from "./Categories";
 import SearchBar from "./SearchBar";
+import { Suspense } from "react";
 
 const redressed = Redressed({subsets:['latin'], weight:['400']} )
 const NavBar = async () => {
@@ -26,7 +27,9 @@ const NavBar = async () => {
             <Link href="/" className={`${redressed.className} font-bold text-2xl`}>
               E-Shop
             </Link>
-            <div className="hidden md:block"><SearchBar /></div>
+            <div className="hidden md:block">
+              <SearchBar />
+            </div>
             <div className="flex items-center gap-8 md:gap-12">
               <CartCount />
               <UserMenu currentUser={currentUser} />
@@ -34,7 +37,9 @@ const NavBar = async () => {
           </div>
         </Container>
       </div>
-      <Categories />
+      <Suspense fallback={<div>Something went wrong</div>}>
+        <Categories />
+      </Suspense>
     </div>
   );
 }

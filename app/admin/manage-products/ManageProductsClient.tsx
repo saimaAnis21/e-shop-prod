@@ -87,44 +87,55 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({ products })
     },
   ];  
   
-  const handleToggleStock = useCallback((id:string, inStock:boolean) => {
-    axios.put('/api/product', {
-      id,
-      inStock: !inStock
-    }).then((res) => {
-      toast.success('Product status changed');
-      router.refresh();
-    }).catch((error) => {
-      toast.error("Something went wrong");
-  })
-  }, []);
+  const handleToggleStock = useCallback(
+    (id: string, inStock: boolean) => {
+      axios
+        .put("/api/product", {
+          id,
+          inStock: !inStock,
+        })
+        .then((res) => {
+          toast.success("Product status changed");
+          router.refresh();
+        })
+        .catch((error) => {
+          toast.error("Something went wrong");
+        });
+    },
+    [router]
+  );
 
-  const handleDelete = useCallback(async(id: string, images:any[]) => {
-    toast("Deleting product, pls wait");
-    const handleImgDelete = async () => {
-      try {
-        for (const item of images) {
-          if (item.image) {
-            const imageRef = ref(storage, item.image);
-            await deleteObject(imageRef);
-            console.log('image deleted', item.image);
+  const handleDelete = useCallback(
+    async (id: string, images: any[]) => {
+      toast("Deleting product, pls wait");
+      const handleImgDelete = async () => {
+        try {
+          for (const item of images) {
+            if (item.image) {
+              const imageRef = ref(storage, item.image);
+              await deleteObject(imageRef);
+            }
           }
+        } catch (error) {
+          return console.log("Deleting images error", error);
         }
-      } catch (error) {
-        return console.log("Deleting images error", error);
-      }
-    }
+      };
 
-    await handleImgDelete();
+      await handleImgDelete();
 
-    axios.delete(`/api/product/${id}`).then((res) => {
-      toast.success("product deleted");
-      router.refresh();
-    }).catch ((error) => {
-      toast.error('Failed to delete product');
-      console.log('error deleting prod', error);
-    })
-  }, []);
+      axios
+        .delete(`/api/product/${id}`)
+        .then((res) => {
+          toast.success("product deleted");
+          router.refresh();
+        })
+        .catch((error) => {
+          toast.error("Failed to delete product");
+          console.log("error deleting prod", error);
+        });
+    },
+    [router, storage]
+  );
 
   const paginationModel = { page: 0, pageSize: 5 };
 

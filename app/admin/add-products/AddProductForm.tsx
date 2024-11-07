@@ -47,19 +47,14 @@ const AddProductForm = () => {
   });
 
   useEffect(() => {
-    setCustomValue('images', images);
-  }, [images]);
-
-  useEffect(() => {
     if (isProductCreated) {
       reset();
       setImages(null);
       setIsProductCreated(false);
     }
-   }, [isProductCreated]);
+  }, [isProductCreated, reset]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log('Product data', data);
     // save data to mongodb
     setIsLoading(true);
     let uploadedImgs:UploadedImageType[] = [];
@@ -90,15 +85,12 @@ const AddProductForm = () => {
                   console.log("Upload is " + progress + "% done");
                   switch (snapshot.state) {
                     case "paused":
-                      console.log("Upload is paused");
                       break;
                     case "running":
-                      console.log("Upload is running");
                       break;
                   }
                 },
                 (error) => {
-                  console.log("Error Uploading", error);
                   reject(error);
                 },
                 () => {
@@ -107,10 +99,8 @@ const AddProductForm = () => {
                       ...item, 
                       image:downloadURL
                     });
-                    console.log("File available at", downloadURL);
                     resolve();
                   }).catch(error => {
-                    console.log('Error getting the downloadable url', error);
                     reject(error);
                   });
                 }
@@ -148,6 +138,9 @@ const AddProductForm = () => {
       shouldTouch: true,  
     });
   }
+    useEffect(() => {
+      setCustomValue("images", images);
+    }, [images]);
 
   const addImageToState = useCallback((value:ImageType) => {
     setImages((prev) => {

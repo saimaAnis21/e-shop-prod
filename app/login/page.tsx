@@ -8,7 +8,7 @@ const Login = async () => {
   return (
     <Container>
       <FormWrap>
-        <LoginForm currentUser={currentUser} />
+          <LoginForm currentUser={currentUser} />
       </FormWrap>
     </Container>
   );
