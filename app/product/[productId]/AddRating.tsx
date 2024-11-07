@@ -14,7 +14,7 @@ import axios from "axios";
 
 interface AddRatingProps {
   product: Product & {
-    reviews: Review
+    reviews: Review[]
   };
   user: (SafeUser & {
     orders: Order[];
@@ -66,9 +66,7 @@ const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
        order.products.find((item) => item.id === product.id) && order.deliveryStatus === "delivered"
    );
 
-  const userReview = product?.reviews.find((review: Review) => {
-    return review.userId === user.id;
-  });
+  const userReview = product?.reviews.find((review: Review) => review.userId === user.id);
 
   if (userReview || !deliveredOrder) return null;
 
